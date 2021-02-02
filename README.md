@@ -6,3 +6,5 @@
 2 设置nodejs的一些环境变量 process.env.PHONESNNO/process.env.WECHATOPENID/...
 
 3 部署到heroku nodejs
+
+4 访问接口即可开门(ios的话可以设置快捷指令)
