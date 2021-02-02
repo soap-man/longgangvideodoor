@@ -8,7 +8,7 @@ app.listen(port, ()=>console.log('服务启动'));
 
 //电脑登陆微信，然后登陆龙岗视频门禁，点击开门，抓包在接口请求和返回结果header,body中找参数
 
-console.log(process.env.PHONESNNO);
+console.log(process.env);
 
 //https://lggafw.com/v1.5/spmj/door/open-door 开门接口
 const phonesnno = process.env.PHONESNNO;
@@ -16,7 +16,7 @@ const wechatopenid = process.env.WECHATOPENID;
 const xAuthToken = process.env.XAUTHTOKEN;
 const doorDeviceId = process.env.DOORDEVICEID;
 //查询开门结果id(在返回结果中id字段,下面是随便设的一个,会在请求开门接口后重写)
-global.commandId = "c8b0b61d-e689-4c9c-9e28-e7bdb35f0bf4";
+const commandId = process.env.COMMANDID;
 
 //https://lggafw.com/v1.5/spmj/door/open-door-result 开门结果查询接口
 const buildName = process.env.BUILDNAME;
@@ -79,7 +79,7 @@ app.get('/status', (req,res)=>{
             'Referer': 'https://servicewechat.com/wx3d2e6845f76fe4ca/68/page-frame.html',
             'Accept-Encoding': 'gzip, deflate, br'
         },
-        body: JSON.stringify({"commandId":global.commandId,"buildName":buildName,"facilityName":facilityName,"brandtype":brandtype,"sn":sn,"bluetoothMac":bluetoothMac})
+        body: JSON.stringify({"commandId":commandId,"buildName":buildName,"facilityName":facilityName,"brandtype":brandtype,"sn":sn,"bluetoothMac":bluetoothMac})
     };
     request(optionsStatus, function (error, response) {
         console.log(response.body);
