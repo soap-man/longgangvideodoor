@@ -91,7 +91,7 @@ function getStatus(res){
             sleep.sleep(1);
             getStatus(res);
         }else {
-            res.json(JSON.parse(response.body).success);
+            res.json({"result":"开门成功"});
         }
     });
 };
