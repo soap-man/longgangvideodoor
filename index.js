@@ -89,7 +89,7 @@ function getStatus(res){
     request(optionsStatus, function (error, response) {
         console.log(response.body);
         if (!JSON.parse(response.body).success){
-            sleep.sleep(0.5);
+            sleep.msleep(500);
             getStatus(res);
         }
         res.json(JSON.parse(response.body).success);
