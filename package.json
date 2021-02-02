@@ -1,13 +1,16 @@
 {
   "name": "longgangvideodoor",
   "version": "1.0.0",
-  "dependencies": {
-    "express": "^4.17.1"
-  },
-  "devDependencies": {
-    "request": "^2.88.2"
-  },
+  "description": "龙岗视频门禁",
+  "main": "index.js",
   "scripts": {
-    "start": "npm install && node index.js"
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "soapmans",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "request": "^2.88.2"
   }
 }
