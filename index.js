@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 const request = require('request');
 
-app.listen(80, ()=>console.log('服务启动'));
+const port = process.env.PORT || 80;
+
+app.listen(port, ()=>console.log('服务启动'));
 
 //电脑登陆微信，然后登陆龙岗视频门禁，点击开门，抓包在接口请求和返回结果header,body中找参数
 
