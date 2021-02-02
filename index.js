@@ -26,66 +26,65 @@ const brandtype = process.env.BRANDTYPE;
 const sn = process.env.SN;
 const bluetoothMac = process.env.BLUETOOTHMAC;
 
+var options = {
+    'method': 'POST',
+    'url': 'https://lggafw.com/v1.5/spmj/door/open-door',
+    'headers': {
+        'Host': 'lggafw.com',
+        'Connection': 'keep-alive',
+        'Content-Length': '22',
+        'SDKVersion': '2.12.1',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36 MicroMessenger/7.0.9.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat',
+        'appversion': 'v1.6.5',
+        'content-type': 'application/json',
+        'phonesnno': phonesnno,
+        'phonetype': 'microsoft',
+        'systype': 'wechat',
+        'sysversion': 'Windows 10 x64',
+        'wechatopenid': wechatopenid,
+        'wechatversion': '7.0.9',
+        'x-auth-token': xAuthToken,
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Referer': 'https://servicewechat.com/wx3d2e6845f76fe4ca/68/page-frame.html'
+    },
+    body: JSON.stringify({"doorDeviceId":doorDeviceId})
+};
 app.get('/open', (req, res)=>{
     //开门
-    var options = {
-        'method': 'POST',
-        'url': 'https://lggafw.com/v1.5/spmj/door/open-door',
-        'headers': {
-            'Host': 'lggafw.com',
-            'Connection': 'keep-alive',
-            'Content-Length': '22',
-            'SDKVersion': '2.12.1',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36 MicroMessenger/7.0.9.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat',
-            'appversion': 'v1.6.5',
-            'content-type': 'application/json',
-            'phonesnno': phonesnno,
-            'phonetype': 'microsoft',
-            'systype': 'wechat',
-            'sysversion': 'Windows 10 x64',
-            'wechatopenid': wechatopenid,
-            'wechatversion': '7.0.9',
-            'x-auth-token': xAuthToken,
-            'Accept-Encoding': 'gzip, deflate, br',
-            'Referer': 'https://servicewechat.com/wx3d2e6845f76fe4ca/68/page-frame.html'
-        },
-        body: JSON.stringify({"doorDeviceId":doorDeviceId})
-    };
     request(options, function (error, response) {
         process.env.COMMANDID = JSON.parse(response.body).id;
         console.log(process.env.COMMANDID);
         res.json(process.env.COMMANDID);
     });
-
     //查询状态
     getStatus(res);
 });
 
+var optionsStatus = {
+    'method': 'POST',
+    'url': 'https://lggafw.com/v1.5/spmj/door/open-door-result',
+    'headers': {
+        'Host': 'lggafw.com',
+        'Connection': 'keep-alive',
+        'Content-Length': '207',
+        'SDKVersion': '2.12.1',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36 MicroMessenger/7.0.9.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat',
+        'appversion': 'v1.6.5',
+        'content-type': 'application/json',
+        'phonesnno': phonesnno,
+        'phonetype': 'microsoft',
+        'systype': 'wechat',
+        'sysversion': 'Windows 10 x64',
+        'wechatopenid': wechatopenid,
+        'wechatversion': '7.0.9',
+        'x-auth-token': xAuthToken,
+        'Referer': 'https://servicewechat.com/wx3d2e6845f76fe4ca/68/page-frame.html',
+        'Accept-Encoding': 'gzip, deflate, br'
+    },
+    body: JSON.stringify({"commandId":process.env.COMMANDID,"buildName":buildName,"facilityName":facilityName,"brandtype":brandtype,"sn":sn,"bluetoothMac":bluetoothMac})
+};
 function getStatus(res){
     console.log(process.env.COMMANDID);
-    var optionsStatus = {
-        'method': 'POST',
-        'url': 'https://lggafw.com/v1.5/spmj/door/open-door-result',
-        'headers': {
-            'Host': 'lggafw.com',
-            'Connection': 'keep-alive',
-            'Content-Length': '207',
-            'SDKVersion': '2.12.1',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36 MicroMessenger/7.0.9.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat',
-            'appversion': 'v1.6.5',
-            'content-type': 'application/json',
-            'phonesnno': phonesnno,
-            'phonetype': 'microsoft',
-            'systype': 'wechat',
-            'sysversion': 'Windows 10 x64',
-            'wechatopenid': wechatopenid,
-            'wechatversion': '7.0.9',
-            'x-auth-token': xAuthToken,
-            'Referer': 'https://servicewechat.com/wx3d2e6845f76fe4ca/68/page-frame.html',
-            'Accept-Encoding': 'gzip, deflate, br'
-        },
-        body: JSON.stringify({"commandId":process.env.COMMANDID,"buildName":buildName,"facilityName":facilityName,"brandtype":brandtype,"sn":sn,"bluetoothMac":bluetoothMac})
-    };
     request(optionsStatus, function (error, response) {
         console.log(response.body);
         if (!JSON.parse(response.body).success){
