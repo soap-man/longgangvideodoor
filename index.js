@@ -6,7 +6,7 @@ app.listen(80, ()=>console.log('服务启动'));
 
 //电脑登陆微信，然后登陆龙岗视频门禁，点击开门，抓包在接口请求和返回结果header,body中找参数
 
-console.log(process.env.USERDOMAIN_ROAMINGPROFILE);
+console.log(process.env.PHONESNNO);
 
 //https://lggafw.com/v1.5/spmj/door/open-door 开门接口
 const phonesnno = process.env.PHONESNNO;
