@@ -14,9 +14,9 @@ console.log(process.env);
 const phonesnno = process.env.PHONESNNO;
 const wechatopenid = process.env.WECHATOPENID;
 const xAuthToken = process.env.XAUTHTOKEN;
-const doorDeviceId = process.env.DOORDEVICEID;
+const doorDeviceId = process.env.DOORDEVICEID*1;
 //查询开门结果id(在返回结果中id字段,下面是随便设的一个,会在请求开门接口后重写)
-const commandId = process.env.COMMANDID;
+//const commandId = process.env.COMMANDID;
 
 //https://lggafw.com/v1.5/spmj/door/open-door-result 开门结果查询接口
 const buildName = process.env.BUILDNAME;
@@ -50,10 +50,10 @@ app.get('/open', (req, res)=>{
         body: JSON.stringify({"doorDeviceId":doorDeviceId})
     };
     request(options, function (error, response) {
-        global.commandId = JSON.parse(response.body).id;
-        console.log(global.commandId);
-        res.json(global.commandId);
-    })
+        process.env.COMMANDID = JSON.parse(response.body).id;
+        console.log(process.env.COMMANDID);
+        res.json(process.env.COMMANDID);
+    });
 });
 
 app.get('/status', (req,res)=>{
@@ -79,7 +79,7 @@ app.get('/status', (req,res)=>{
             'Referer': 'https://servicewechat.com/wx3d2e6845f76fe4ca/68/page-frame.html',
             'Accept-Encoding': 'gzip, deflate, br'
         },
-        body: JSON.stringify({"commandId":commandId,"buildName":buildName,"facilityName":facilityName,"brandtype":brandtype,"sn":sn,"bluetoothMac":bluetoothMac})
+        body: JSON.stringify({"commandId":process.env.COMMANDID,"buildName":buildName,"facilityName":facilityName,"brandtype":brandtype,"sn":sn,"bluetoothMac":bluetoothMac})
     };
     request(optionsStatus, function (error, response) {
         console.log(response.body);
