@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const request = require('request');
+const sleep = require('sleep');
 
 const port = process.env.PORT || 80;
 
@@ -26,6 +27,7 @@ const sn = process.env.SN;
 const bluetoothMac = process.env.BLUETOOTHMAC;
 
 app.get('/open', (req, res)=>{
+    //开门
     var options = {
         'method': 'POST',
         'url': 'https://lggafw.com/v1.5/spmj/door/open-door',
@@ -54,10 +56,13 @@ app.get('/open', (req, res)=>{
         console.log(process.env.COMMANDID);
         res.json(process.env.COMMANDID);
     });
+
+    //查询状态
+    getStatus(res);
 });
 
-app.get('/status', (req,res)=>{
-    console.log(global.commandId);
+function getStatus(res){
+    console.log(process.env.COMMANDID);
     var optionsStatus = {
         'method': 'POST',
         'url': 'https://lggafw.com/v1.5/spmj/door/open-door-result',
@@ -83,9 +88,14 @@ app.get('/status', (req,res)=>{
     };
     request(optionsStatus, function (error, response) {
         console.log(response.body);
-        res.json(JSON.parse(response.body).message);
+        if (!JSON.parse(response.body).success){
+            sleep.sleep(0.5);
+            getStatus(res);
+        }
+        res.json(JSON.parse(response.body).success);
     });
-});
+};
+
 
 
 
