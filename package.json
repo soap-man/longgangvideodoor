@@ -8,6 +8,6 @@
     "request": "^2.88.2"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "npm install && node index.js"
   }
 }
