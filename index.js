@@ -54,7 +54,10 @@ app.get('/open', (req, res)=>{
     request(options, function (error, response) {
         process.env.COMMANDID = JSON.parse(response.body).id;
         console.log("查询开门结果id：" + process.env.COMMANDID);
-        response.on('end', getStatus(res));
+        if (process.env.COMMANDID !== ""){
+            console.log("开始查询结果......")
+            getStatus(res);
+        }
     });
 });
 
