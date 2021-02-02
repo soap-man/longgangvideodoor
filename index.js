@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const request = require('request');
+const request2 = require('request');
 const sleep = require('sleep');
 
 const port = process.env.PORT || 80;
@@ -85,7 +86,7 @@ var optionsStatus = {
     body: JSON.stringify({"commandId":process.env.COMMANDID,"buildName":buildName,"facilityName":facilityName,"brandtype":brandtype,"sn":sn,"bluetoothMac":bluetoothMac})
 };
 function getStatus(res){
-    request(optionsStatus, function (error, response) {
+    request2(optionsStatus, function (error, response) {
         console.log("开门结果：" + response.body);
         if (!JSON.parse(response.body).success){
             sleep.msleep(500);
