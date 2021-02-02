@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const request = require('request');
-const request2 = require('request');
 const sleep = require('sleep');
 
 const port = process.env.PORT || 80;
@@ -55,10 +54,8 @@ app.get('/open', (req, res)=>{
     request(options, function (error, response) {
         process.env.COMMANDID = JSON.parse(response.body).id;
         console.log("查询开门结果id：" + process.env.COMMANDID);
+        response.on('end', getStatus(res));
     });
-
-    //查询状态
-    getStatus(res);
 });
 
 
@@ -86,13 +83,14 @@ var optionsStatus = {
     body: JSON.stringify({"commandId":process.env.COMMANDID,"buildName":buildName,"facilityName":facilityName,"brandtype":brandtype,"sn":sn,"bluetoothMac":bluetoothMac})
 };
 function getStatus(res){
-    request2(optionsStatus, function (error, response) {
+    request(optionsStatus, function (error, response) {
         console.log("开门结果：" + response.body);
         if (!JSON.parse(response.body).success){
             sleep.msleep(500);
             getStatus(res);
+        }else {
+            res.json(JSON.parse(response.body).success);
         }
-        res.json(JSON.parse(response.body).success);
     });
 };
 
